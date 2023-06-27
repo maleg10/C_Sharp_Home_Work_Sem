@@ -8,43 +8,55 @@
 // 9 5 3 2
 // 8 4 4 2
 
-int arrayRows = 3;
-int arrayColumns = 4;
-int arrayMaxValue = 10;
-int arrayMinValue = 1;
+Console.WriteLine("введите количество строк массива: ");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("введите количество столбцов массива: ");
+int colums = Convert.ToInt32(Console.ReadLine());
+int[,] numbers = new int[rows, colums];
+FillArrayRandomNumbers(numbers);
+Console.WriteLine();
+Console.WriteLine("Созданный массив: ");
+PrintArray(numbers);
 
-Console.WriteLine("Исходный массив:");
-int[,] array = FillArray(arrayRows, arrayColumns, arrayMaxValue, arrayMinValue);
-
-for (int currentStringIndex = 0; currentStringIndex < arrayRows; currentStringIndex++)
+for (int i = 0; i < numbers.GetLength(0); i++)
 {
-    SortStrOfArray(array, currentStringIndex);
-}
-
-Console.WriteLine("\nРезультат: ");
-for (int i = 0; i < arrayRows; i++)
-{
-
-    for (int j = 0; j < arrayColumns; j++)
+    for (int j = 0; j < numbers.GetLength(1) - 1; j++)
     {
-        Console.Write(array[i, j] + "\t|");
-    }
-    Console.WriteLine("<-- row " + (i + 1));
-}
-
-void SortStrOfArray(int[,] array, int currentStringIndex)
-{
-    int tempMemory;
-    for (int i = 0; i < array.GetLength(1); i++)
-    {
-        for (int j = array.GetLength(1) - 1; j > i; j--)
+        for (int z = 0; z < numbers.GetLength(1) - 1; z++)
         {
-            if (array[currentStringIndex, j] < array[currentStringIndex, j - 1])
+            if (numbers[i, z] < numbers[i, z + 1])  //для изменения сортировки поменять знак < на противоположный
             {
-                tempMemory = array[currentStringIndex, j];
-                array[currentStringIndex, j] = array[currentStringIndex, j - 1];
-                array[currentStringIndex, j - 1] = tempMemory;
+                int temp = 0;
+                temp = numbers[i, z];
+                numbers[i, z] = numbers[i, z + 1];
+                numbers[i, z + 1] = temp;
             }
         }
+    }
+}
+Console.WriteLine();
+Console.WriteLine("Массив с упорядоченными значениями: ");
+PrintArray(numbers);
+
+void FillArrayRandomNumbers(int[,] array)
+{
+    for (int i = 0; i < array.GetLength(0); i++)
+    {
+        for (int j = 0; j < array.GetLength(1); j++)
+        {
+            array[i, j] = new Random().Next(0, 10);
+        }
+    }
+}
+
+void PrintArray(int[,] array)
+{
+    for (int i = 0; i < array.GetLength(0); i++)
+    {
+          for (int j = 0; j < array.GetLength(1); j++)
+        {
+            Console.Write(array[i, j] + " ");
+        }
+            Console.WriteLine("");
     }
 }
